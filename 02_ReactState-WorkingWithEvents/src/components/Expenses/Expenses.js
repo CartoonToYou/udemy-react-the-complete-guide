@@ -1,10 +1,24 @@
+import React, { useState } from "react";
+
+import Card from "../UI/Card";
+import ExpenseItem from "./ExpenseItem";
+import ExpensesFilter from "./ExpensesFilter";
+
 import "./Expenses.css";
 
-import ExpenseItem from "./ExpenseItem";
-
 const Expenses = (props) => {
+  const [selectedFilter, setSelectedFilter] = useState("2020");
+
+  const selectDropdownFilter = (selectedYear) => {
+    setSelectedFilter(selectedYear);
+  };
+
   return (
-    <div className="expenses">
+    <Card className="expenses">
+      <ExpensesFilter
+        selected={selectedFilter}
+        onSelectDropdown={selectDropdownFilter}
+      />
       {props.expenses.map((expense, idx) => (
         <ExpenseItem
           key={idx}
@@ -13,7 +27,7 @@ const Expenses = (props) => {
           date={expense.date}
         />
       ))}
-    </div>
+    </Card>
   );
 };
 
