@@ -24,8 +24,35 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-function HomePage() {
-  return <MeetupList meetups={DUMMY_MEETUPS} />;
+function HomePage(props) {
+  return <MeetupList meetups={props.meetups} />;
+}
+
+/* Running from server side & regenerated this when have request from server */
+// no need revalidate!
+// export async function getServerSideProps(context) {
+//   const req = context.req;
+//   const res = context.res;
+
+//   // fetch data from APIs
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//     },
+//   };
+// }
+
+/* --- SSG --- */
+/* Static site generation & Not regenerated new when have request from server */
+export async function getStaticProps() {
+  // fetch data from APIs
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+    /* Incremental static generation with second unit for request and regenerated this page frequently */
+    revalidate: 1,
+  };
 }
 
 export default HomePage;
